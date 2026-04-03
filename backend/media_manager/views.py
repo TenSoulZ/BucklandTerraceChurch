@@ -51,6 +51,6 @@ class ImageAssetViewSet(viewsets.ModelViewSet):
     def perform_destroy(self, instance):
         try:
             imagekit.delete_file(instance.file_id)
-        except Exception as e:
+        except Exception:
             pass # Or handle deletion error
         instance.delete()

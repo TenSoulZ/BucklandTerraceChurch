@@ -2,16 +2,15 @@ import os
 import django
 from django.utils import timezone
 from datetime import timedelta
-import random
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django.setup()
 
-from sermons.models import Sermon, SermonSeries
-from events.models import Event, EventCategory
-from blog.models import Post, Category
-from giving.models import DonationCampaign
-from prayer.models import PrayerRequest
+from sermons.models import Sermon, SermonSeries  # noqa: E402
+from events.models import Event, EventCategory  # noqa: E402
+from blog.models import Post, Category  # noqa: E402
+from giving.models import DonationCampaign  # noqa: E402
+from prayer.models import PrayerRequest  # noqa: E402
 
 def populate():
     # Clear existing data
@@ -47,7 +46,7 @@ def populate():
             series=s["series"],
             is_published=True,
             video_url="https://www.youtube.com/embed/dQw4w9WgXcQ", # Placeholder
-            thumbnail_url=f"https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=800&q=80"
+            thumbnail_url="https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=800&q=80"
         )
 
     print("Creating Event Categories and Events...")

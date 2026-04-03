@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 import SermonCard from '@/components/SermonCard';
 import EventCard from '@/components/EventCard';
 import { get } from '@/lib/api';
-import { FaCirclePlay, FaLocationDot, FaClock, FaGlobe, FaArrowRight } from 'react-icons/fa6';
+import { FaLocationDot, FaClock, FaGlobe, FaArrowRight } from 'react-icons/fa6';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);

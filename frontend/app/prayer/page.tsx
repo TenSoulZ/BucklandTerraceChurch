@@ -8,7 +8,7 @@ import * as z from 'zod';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { get, post } from '@/lib/api';
-import { FaHandsPraying, FaPaperPlane, FaUserSecret, FaGlobe } from 'react-icons/fa6';
+import { FaHandsPraying, FaPaperPlane, FaUserSecret } from 'react-icons/fa6';
 
 const prayerSchema = z.object({
   requester_name: z.string().min(1, 'Name is required'),
