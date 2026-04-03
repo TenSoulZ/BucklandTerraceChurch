@@ -1,0 +1,26 @@
+// Ensure the fonts are loaded
+$primary: #F05A28; // Bright orange-red from the logo
+$secondary: #8A1538; // Deep red from the logo
+$dark: #3A0815; // Very dark red for contrast
+$danger: #E3000F; // Standard red
+$purple: #A6192E; // Intermediate crimson
+$light: #FFF5F0; // Warm light tint
+
+// Typography (We will map this to the injected CSS variables from next/font/google in layout.tsx)
+$font-family-sans-serif: var(--font-lato), sans-serif;
+$headings-font-family: var(--font-inter), sans-serif;
+
+$border-radius: 12px;
+$border-radius-sm: 8px;
+$box-shadow: 0 4px 24px rgba(138, 21, 56, 0.15); // Adapted box shadow
+
+$theme-colors: (
+  "primary": $primary,
+  "secondary": $secondary,
+  "dark": $dark,
+  "danger": $danger,
+  "purple": $purple,
+  "light": $light
+);
+
+@import 'bootstrap/dist/css/bootstrap.min.css';

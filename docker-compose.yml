@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: buckland_user
+      POSTGRES_PASSWORD: buckland_password
+      POSTGRES_DB: buckland_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  backend:
+    build: 
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./backend:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgres://buckland_user:buckland_password@db:5432/buckland_db
+      - REDIS_URL=redis://redis:6379/0
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  celery_worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    command: celery -A config worker -l INFO
+    volumes:
+      - ./backend:/app
+    environment:
+      - DATABASE_URL=postgres://buckland_user:buckland_password@db:5432/buckland_db
+      - REDIS_URL=redis://redis:6379/0
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - db
+      - redis
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
