@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Tabs, Tab, Spinner, Modal, Button, Form, Alert, Badge, Card } from 'react-bootstrap';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -37,7 +37,18 @@ export default function Events() {
   
   const { user } = useAuthStore();
 
-  const fetchData = async () => {
+  const formatCalendarEvents = useCallback((results: any[]) => {
+    const formatted = results.map((evt: any) => ({
+      id: evt.id,
+      title: evt.title,
+      start: new Date(evt.start_time),
+      end: new Date(evt.end_time || evt.start_time),
+      resource: evt,
+    }));
+    setCalendarEvents(formatted);
+  }, []);
+
+  const fetchData = useCallback(async () => {
     setLoading(true);
     try {
       const [eventsData, categoriesData] = await Promise.all([
@@ -56,22 +67,11 @@ export default function Events() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const formatCalendarEvents = (results: any[]) => {
-    const formatted = results.map((evt: any) => ({
-      id: evt.id,
-      title: evt.title,
-      start: new Date(evt.start_time),
-      end: new Date(evt.end_time || evt.start_time),
-      resource: evt,
-    }));
-    setCalendarEvents(formatted);
-  };
+  }, [formatCalendarEvents]);
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [fetchData]);
 
   const handleSelectEvent = (event: any) => {
     setSelectedEvent(event.resource);

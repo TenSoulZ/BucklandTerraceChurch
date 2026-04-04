@@ -3,10 +3,16 @@ import path from 'path';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
+    loader: 'custom',
+    loaderFile: './lib/imagekit-loader.js',
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'ik.imagekit.io',
       },
     ],
   },
