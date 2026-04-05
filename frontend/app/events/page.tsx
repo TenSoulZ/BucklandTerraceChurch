@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { Container, Row, Col, Tabs, Tab, Spinner, Modal, Button, Form, Alert, Badge, Card } from 'react-bootstrap';
-import { Calendar, momentLocalizer } from 'react-big-calendar';
+import { Calendar, momentLocalizer, View } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Navigation from '@/components/Navigation';
@@ -21,7 +21,7 @@ export default function Events() {
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [calendarDate, setCalendarDate] = useState(new Date());
-  const [calendarView, setCalendarView] = useState<any>('month');
+  const [calendarView, setCalendarView] = useState<View>('month');
 
   // Modal State
   const [showModal, setShowModal] = useState(false);
