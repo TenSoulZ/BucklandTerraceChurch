@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { Row, Col, Card, Button, Spinner } from 'react-bootstrap';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import { get } from '@/lib/api';
-import { FaUsers, FaMicrophone, FaCalendarDays, FaHeart, FaPlus, FaArrowTrendUp } from 'react-icons/fa6';
+import { FaUsers, FaMicrophone, FaCalendarDays, FaHeart, FaArrowTrendUp } from 'react-icons/fa6';
 
 export default function DashboardOverview() {
   const [mounted, setMounted] = useState(false);
@@ -240,10 +240,12 @@ export default function DashboardOverview() {
                   </Link>
                 </Col>
                 <Col sm={6}>
-                  <Button variant="outline-success" className="w-100 py-3 d-flex flex-column align-items-center gap-2 rounded-3 border-2">
-                    <FaHeart size={24} />
-                    <span className="fw-bold small">View Donations</span>
-                  </Button>
+                  <Link href="/dashboard/giving" className="text-decoration-none">
+                    <Button variant="outline-success" className="w-100 py-3 d-flex flex-column align-items-center gap-2 rounded-3 border-2">
+                      <FaHeart size={24} />
+                      <span className="fw-bold small">View Donations</span>
+                    </Button>
+                  </Link>
                 </Col>
               </div>
             </Card.Body>

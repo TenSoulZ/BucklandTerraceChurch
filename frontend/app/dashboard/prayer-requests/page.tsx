@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Card, Table, Button, Form, InputGroup, Spinner, Badge } from 'react-bootstrap';
 import { get } from '@/lib/api';
-import { FaMagnifyingGlass, FaHandsPraying, FaEllipsisVertical } from 'react-icons/fa6';
+import { FaMagnifyingGlass, FaEllipsisVertical } from 'react-icons/fa6';
 
 export default function PrayerRequestsManagement() {
   const [requests, setRequests] = useState<any[]>([]);
