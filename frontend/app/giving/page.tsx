@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, ProgressBar, Button, Spinner, Table, Tab, Tabs } from 'react-bootstrap';
+import { Container, Row, Col, Card, ProgressBar, Button, Spinner, Tab, Tabs } from 'react-bootstrap';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { get } from '@/lib/api';
