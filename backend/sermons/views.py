@@ -30,5 +30,7 @@ class SermonViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         if self.request.user.is_staff or self.request.user.is_superuser:
-            return Sermon.objects.all()
-        return Sermon.objects.filter(is_published=True)
+            queryset = Sermon.objects.all()
+        else:
+            queryset = Sermon.objects.filter(is_published=True)
+        return queryset.select_related('series').prefetch_related('tags')

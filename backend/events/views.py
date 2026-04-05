@@ -1,4 +1,4 @@
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, filters
 from .models import EventCategory, Event, RSVP
 from .serializers import EventCategorySerializer, EventSerializer, RSVPSerializer
 
@@ -18,11 +18,17 @@ class EventViewSet(viewsets.ModelViewSet):
     serializer_class = EventSerializer
     permission_classes = [IsAdminOrReadOnly]
     lookup_field = 'slug'
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'description', 'location_name']
+    ordering_fields = ['start_time', 'created_at']
+    ordering = ['start_time']
 
     def get_queryset(self):
         if self.request.user.is_staff or self.request.user.is_superuser:
-            return Event.objects.all()
-        return Event.objects.filter(is_published=True)
+            queryset = Event.objects.all()
+        else:
+            queryset = Event.objects.filter(is_published=True)
+        return queryset.prefetch_related('rsvps').select_related('category')
 
 class RSVPViewSet(viewsets.ModelViewSet):
     queryset = RSVP.objects.all()

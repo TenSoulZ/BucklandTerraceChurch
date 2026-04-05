@@ -30,8 +30,12 @@ api.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
-        // Assume Next.js API route handles the refresh token from httpOnly cookie
-        const res = await axios.post('/api/auth/refresh');
+        const refreshToken = useAuthStore.getState().refreshToken;
+        if (!refreshToken) throw new Error('No refresh token');
+
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/auth/refresh/`, {
+          refresh: refreshToken
+        });
         const { access } = res.data;
 
         useAuthStore.getState().setAccessToken(access);

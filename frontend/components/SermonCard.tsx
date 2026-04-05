@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, Button } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
+import { imageKitLoader } from '@/lib/imagekit-loader';
 import { FaPlay } from 'react-icons/fa6';
 
 interface SermonCardProps {
@@ -26,6 +27,7 @@ export default function SermonCard({ sermon }: SermonCardProps) {
     <Card className="h-100 border-0 shadow-sm overflow-hidden" style={{ borderRadius: 'var(--bs-border-radius)' }}>
       <div className="position-relative" style={{ height: '200px' }}>
         <Image 
+          loader={imageKitLoader}
           src={thumbnail} 
           alt={sermon.title}
           fill

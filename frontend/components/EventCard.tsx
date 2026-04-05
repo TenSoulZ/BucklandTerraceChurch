@@ -3,7 +3,8 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Card, Badge, Button } from 'react-bootstrap';
+import { Card, Badge } from 'react-bootstrap';
+import { imageKitLoader } from '@/lib/imagekit-loader';
 import { FaClock, FaLocationDot } from 'react-icons/fa6';
 
 interface EventCardProps {
@@ -35,6 +36,7 @@ export default function EventCard({ event }: EventCardProps) {
     <Card className="h-100 border-0 shadow-sm overflow-hidden" style={{ borderRadius: 'var(--bs-border-radius)' }}>
       <div className="position-relative" style={{ height: '180px' }}>
         <Image 
+          loader={imageKitLoader}
           src={thumbnail} 
           alt={event.title}
           fill

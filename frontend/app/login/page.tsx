@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { useAuthStore } from '@/store/auth';
+import { post } from '@/lib/api';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
@@ -33,14 +34,11 @@ export default function Login() {
     setError('');
     
     try {
-      // Mock login for now
-      // const response = await api.post('/api/v1/auth/login/', data);
-      // setAuth(response.user, response.access);
-      setTimeout(() => {
-        setAuth({ id: 1, email: data.email, first_name: 'Admin', last_name: 'User', roles: ['admin'] }, 'mock-token');
-        router.push('/dashboard');
-      }, 1000);
+      const response: any = await post('/api/v1/auth/login/', data);
+      setAuth(response.user, response.access, response.refresh);
+      router.push('/dashboard');
     } catch (err: any) {
+      console.error('Login error:', err);
       setError(err.response?.data?.detail || 'Invalid email or password.');
       setLoading(false);
     }

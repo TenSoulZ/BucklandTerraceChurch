@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
 import { Container, Row, Col, Tabs, Tab, Spinner, Modal, Button, Form, Alert, Badge, Card } from 'react-bootstrap';
 import { Calendar, momentLocalizer, View } from 'react-big-calendar';
 import moment from 'moment';
@@ -9,6 +10,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import EventCard from '@/components/EventCard';
 import { get, post } from '@/lib/api';
+import { imageKitLoader } from '@/lib/imagekit-loader';
 import { useAuthStore } from '@/store/auth';
 import { FaCalendarXmark, FaLocationDot, FaClock, FaCircleCheck, FaUserGroup } from 'react-icons/fa6';
 
@@ -231,12 +233,15 @@ export default function Events() {
               <Row className="gy-4 mb-4">
                 <Col md={7}>
                   {selectedEvent.image_url && (
-                    <img 
-                      src={selectedEvent.image_url} 
-                      alt={selectedEvent.title} 
-                      className="img-fluid rounded shadow-sm mb-3 w-100" 
-                      style={{ maxHeight: '300px', objectFit: 'cover' }}
-                    />
+                    <div className="position-relative mb-3 w-100" style={{ height: '300px' }}>
+                      <Image 
+                        loader={imageKitLoader}
+                        src={selectedEvent.image_url} 
+                        alt={selectedEvent.title} 
+                        fill
+                        className="rounded shadow-sm object-fit-cover"
+                      />
+                    </div>
                   )}
                   <p className="text-muted fs-5 lh-base" style={{ whiteSpace: 'pre-wrap' }}>
                     {selectedEvent.description}

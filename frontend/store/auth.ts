@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 interface User {
   id: number;
@@ -11,15 +12,24 @@ interface User {
 interface AuthState {
   user: User | null;
   accessToken: string | null;
-  setAuth: (user: User, token: string) => void;
+  refreshToken: string | null;
+  setAuth: (user: User, access: string, refresh: string) => void;
   setAccessToken: (token: string) => void;
   logout: () => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  accessToken: null,
-  setAuth: (user, token) => set({ user, accessToken: token }),
-  setAccessToken: (token) => set({ accessToken: token }),
-  logout: () => set({ user: null, accessToken: null }),
-}));
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      user: null,
+      accessToken: null,
+      refreshToken: null,
+      setAuth: (user, access, refresh) => set({ user, accessToken: access, refreshToken: refresh }),
+      setAccessToken: (token) => set({ accessToken: token }),
+      logout: () => set({ user: null, accessToken: null, refreshToken: null }),
+    }),
+    {
+      name: 'btc-auth-storage',
+    }
+  )
+);
