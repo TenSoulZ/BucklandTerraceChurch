@@ -6,8 +6,5 @@
       "use": "@vercel/next",
       "config": { "workdir": "frontend" }
     }
-  ],
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/frontend" }
   ]
 }
