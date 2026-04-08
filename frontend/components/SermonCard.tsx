@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { memo, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card } from 'react-bootstrap';
@@ -18,10 +18,10 @@ interface SermonCardProps {
   };
 }
 
-export default function SermonCard({ sermon }: SermonCardProps) {
+export default memo(function SermonCard({ sermon }: SermonCardProps) {
   const thumbnail = sermon.thumbnail_url || 'https://images.unsplash.com/photo-1438032005730-c779502df39b?auto=format&fit=crop&w=800&q=80';
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  // Compute formatted date only when the sermon date changes
+  const formattedDate = useMemo(() => new Date(sermon.date_preached).toLocaleDateString(), [sermon.date_preached]);
 
   return (
     <Card className="h-100 border-0 shadow-sm overflow-hidden" style={{ borderRadius: 'var(--bs-border-radius)' }}>
@@ -47,9 +47,9 @@ export default function SermonCard({ sermon }: SermonCardProps) {
       <Card.Body>
         <Card.Title className="fw-bold mb-1">{sermon.title}</Card.Title>
         <Card.Text className="text-secondary small mb-2">
-          {sermon.preacher} &bull; {mounted ? new Date(sermon.date_preached).toLocaleDateString() : ''}
+          {sermon.preacher} &bull; {formattedDate}
         </Card.Text>
       </Card.Body>
     </Card>
   );
-}
+});

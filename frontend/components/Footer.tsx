@@ -3,8 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Container, Row, Col } from 'react-bootstrap';
+import { memo } from 'react';
 
-export default function Footer() {
+function Footer() {
   return (
     <footer className="bg-dark text-light py-5 mt-auto">
       <Container>
@@ -55,3 +56,5 @@ export default function Footer() {
     </footer>
   );
 }
+
+export default memo(Footer);

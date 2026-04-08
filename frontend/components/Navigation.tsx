@@ -5,28 +5,31 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Navbar, Nav, Container, Offcanvas, Button } from 'react-bootstrap';
 import { useAuthStore } from '@/store/auth';
+import { memo, useCallback } from 'react';
 
-export default function Navigation() {
+function Navigation() {
   const pathname = usePathname();
   const { user, logout } = useAuthStore();
 
-  const handleLogout = () => {
+  // Memoize logout handler to avoid unnecessary re-renders of Navigation component
+  const handleLogout = useCallback(() => {
     logout();
     // API call to actual logout endpoint would go here
     window.location.href = '/';
-  };
+  }, [logout]);
 
   return (
     <Navbar bg="light" expand="lg" className="mb-4 shadow-sm" sticky="top">
       <Container fluid>
         <Link href="/" className="navbar-brand d-flex align-items-center">
-          <Image
-            src="/logo.png"
-            alt="Buckland Terrace Community Church Logo"
-            width={150}
-            height={65}
-            className="d-inline-block align-top me-2 object-fit-contain"
-          />
+            <Image
+              src="/logo.png"
+              alt="Buckland Terrace Community Church Logo"
+              width={150}
+              height={65}
+              priority // prioritize loading of the logo as it is above-the-fold
+              className="d-inline-block align-top me-2 object-fit-contain"
+            />
         </Link>
         <Navbar.Toggle aria-controls="offcanvasNavbar-expand-lg" />
         <Navbar.Offcanvas
@@ -75,3 +78,5 @@ export default function Navigation() {
     </Navbar>
   );
 }
+
+export default memo(Navigation);

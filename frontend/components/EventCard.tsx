@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { memo, useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Card, Badge } from 'react-bootstrap';
@@ -22,15 +22,18 @@ interface EventCardProps {
   };
 }
 
-export default function EventCard({ event }: EventCardProps) {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+function EventCard({ event }: EventCardProps) {
+  // Compute formatted date values only when the event start time changes
+  const { day, month, time } = useMemo(() => {
+    const d = new Date(event.start_time);
+    return {
+      day: d.getDate(),
+      month: d.toLocaleString('default', { month: 'short' }),
+      time: d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+  }, [event.start_time]);
 
   const thumbnail = event.image_url || 'https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=800&q=80';
-  const eventDate = new Date(event.start_time);
-  const day = mounted ? eventDate.getDate() : '';
-  const month = mounted ? eventDate.toLocaleString('default', { month: 'short' }) : '';
-  const time = mounted ? eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '';
 
   return (
     <Card className="h-100 border-0 shadow-sm overflow-hidden" style={{ borderRadius: 'var(--bs-border-radius)' }}>
@@ -81,3 +84,5 @@ export default function EventCard({ event }: EventCardProps) {
     </Card>
   );
 }
+
+export default memo(EventCard);
