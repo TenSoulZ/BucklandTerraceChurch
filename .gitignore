@@ -16,6 +16,7 @@ backend/static_root/
 backend/media_root/
 
 # Root
+.next/
 db.sqlite3
 .DS_Store
 *.pem
