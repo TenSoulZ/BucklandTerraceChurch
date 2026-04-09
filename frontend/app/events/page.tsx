@@ -8,12 +8,7 @@ import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import dynamic from 'next/dynamic';
-// Lazy load EventCard to reduce initial bundle size
-const EventCard = dynamic(() => import('@/components/EventCard'), {
-  loading: () => <p className="text-center py-5">Loading events...</p>,
-  ssr: false,
-});
+import EventCard from '@/components/EventCard';
 import { get, post } from '@/lib/api';
 import { imageKitLoader } from '@/lib/imagekit-loader';
 import { useAuthStore } from '@/store/auth';
