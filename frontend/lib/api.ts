@@ -2,13 +2,17 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { useAuthStore } from '@/store/auth';
 
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? '' : 'http://127.0.0.1:8000'),
   withCredentials: true,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json',
   },
 });
+
+if (process.env.NODE_ENV === 'development') {
+  console.log('API Base URL:', api.defaults.baseURL);
+}
 
 api.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
@@ -33,7 +37,7 @@ api.interceptors.response.use(
         const refreshToken = useAuthStore.getState().refreshToken;
         if (!refreshToken) throw new Error('No refresh token');
 
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}/api/v1/auth/refresh/`, {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL || (typeof window !== 'undefined' ? '' : 'http://127.0.0.1:8000')}/api/v1/auth/refresh/`, {
           refresh: refreshToken
         });
         const { access } = res.data;
