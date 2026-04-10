@@ -136,6 +136,15 @@ CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
 ])
 CORS_ALLOW_CREDENTIALS = True
 
+# Production Security Settings
+if not DEBUG:
+    SESSION_COOKIE_SAMESITE = 'None'
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SAMESITE = 'None'
+    CSRF_COOKIE_SECURE = True
+    # If the backend is behind a proxy (like Koyeb's load balancer)
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # ImageKit Settings
 IMAGEKIT_PUBLIC_KEY = env('IMAGEKIT_PUBLIC_KEY', default='')
 IMAGEKIT_PRIVATE_KEY = env('IMAGEKIT_PRIVATE_KEY', default='')
