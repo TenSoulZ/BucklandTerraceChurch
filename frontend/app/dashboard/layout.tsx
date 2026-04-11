@@ -1,18 +1,30 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Offcanvas, Nav, Button } from 'react-bootstrap';
 import { useAuthStore } from '@/store/auth';
 import { FaGauge, FaUsers, FaMicrophone, FaCalendarDays, FaHeart, FaPenNib, FaHandsPraying, FaTowerBroadcast, FaGear, FaBars } from 'react-icons/fa6';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [show, setShow] = useState(false);
+  const [authorized, setAuthorized] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const pathname = usePathname();
+  const router = useRouter();
   const { user, logout } = useAuthStore();
+
+  useEffect(() => {
+    if (!user) {
+      router.push('/login');
+    } else {
+      setAuthorized(true);
+    }
+  }, [user, router]);
+
+  if (!authorized) return null;
 
   const handleLogout = () => {
     logout();

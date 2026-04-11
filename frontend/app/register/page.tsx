@@ -9,6 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { post } from '@/lib/api';
 
 const registerSchema = z.object({
   first_name: z.string().min(2, 'First name is required'),
@@ -34,14 +35,18 @@ export default function Register() {
     setError('');
     
     try {
-      // Mock register for now
-      // await api.post('/api/v1/auth/register/', data);
-      setTimeout(() => {
-        setSuccess(true);
-        setTimeout(() => router.push('/login'), 2000);
-      }, 1000);
+      await post('/api/v1/auth/register/', data);
+      setSuccess(true);
+      setTimeout(() => router.push('/login'), 2000);
     } catch (err: any) {
-      setError(err.response?.data?.detail || 'An error occurred during registration.');
+      console.error('Registration error:', err);
+      if (err.response?.data) {
+        const data = err.response.data;
+        const firstError = Object.values(data)[0];
+        setError(Array.isArray(firstError) ? firstError[0] : (typeof firstError === 'string' ? firstError : 'Registration failed.'));
+      } else {
+        setError('An error occurred during registration.');
+      }
       setLoading(false);
     }
   };

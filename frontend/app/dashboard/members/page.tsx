@@ -1,14 +1,35 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Card, Table, Button, Form, InputGroup, Spinner, Badge } from 'react-bootstrap';
-import { get } from '@/lib/api';
+import { Card, Table, Button, Form, InputGroup, Spinner, Badge, Modal, Alert, Row, Col } from 'react-bootstrap';
+import { get, post } from '@/lib/api';
 import { FaMagnifyingGlass, FaUserPlus, FaEllipsisVertical } from 'react-icons/fa6';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+
+const memberSchema = z.object({
+  first_name: z.string().min(1, 'First name is required'),
+  last_name: z.string().min(1, 'Last name is required'),
+  email: z.string().email('Invalid email address'),
+  role: z.string().optional().default('Member'),
+});
+
+type MemberFormValues = z.infer<typeof memberSchema>;
 
 export default function MembersManagement() {
   const [members, setMembers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
+  
+  // Modal State
+  const [showModal, setShowModal] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState('');
+
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<MemberFormValues>({
+    resolver: zodResolver(memberSchema)
+  });
 
   const fetchMembers = async () => {
     setLoading(true);
@@ -31,6 +52,21 @@ export default function MembersManagement() {
     `${member.first_name} ${member.last_name} ${member.email}`.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const onSubmit = async (data: MemberFormValues) => {
+    setSubmitting(true);
+    setError('');
+    try {
+      await post('/api/v1/users/', data);
+      setShowModal(false);
+      reset();
+      fetchMembers();
+    } catch (err: any) {
+      setError('Failed to add member. Please check if the email is already in use.');
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
   return (
     <>
       <div className="d-flex justify-content-between align-items-center mb-4">
@@ -38,7 +74,7 @@ export default function MembersManagement() {
           <h2 className="fw-bold mb-1">Member Management</h2>
           <p className="text-muted small mb-0">View and manage church members</p>
         </div>
-        <Button variant="primary" className="shadow-sm d-flex align-items-center gap-2">
+        <Button variant="primary" className="shadow-sm d-flex align-items-center gap-2" onClick={() => setShowModal(true)}>
           <FaUserPlus /> Add Member
         </Button>
       </div>
@@ -115,6 +151,53 @@ export default function MembersManagement() {
           </div>
         </Card.Body>
       </Card>
+
+      {/* Add Member Modal */}
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton className="border-0 pb-0">
+          <Modal.Title className="fw-bold">Add New Member</Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="pt-3">
+          {error && <Alert variant="danger" className="small">{error}</Alert>}
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label className="small fw-bold">First Name</Form.Label>
+                  <Form.Control type="text" {...register('first_name')} isInvalid={!!errors.first_name} />
+                  <Form.Control.Feedback type="invalid">{errors.first_name?.message}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label className="small fw-bold">Last Name</Form.Label>
+                  <Form.Control type="text" {...register('last_name')} isInvalid={!!errors.last_name} />
+                  <Form.Control.Feedback type="invalid">{errors.last_name?.message}</Form.Control.Feedback>
+                </Form.Group>
+              </Col>
+            </Row>
+            <Form.Group className="mb-3">
+              <Form.Label className="small fw-bold">Email Address</Form.Label>
+              <Form.Control type="email" {...register('email')} isInvalid={!!errors.email} />
+              <Form.Control.Feedback type="invalid">{errors.email?.message}</Form.Control.Feedback>
+            </Form.Group>
+            <Form.Group className="mb-4">
+              <Form.Label className="small fw-bold">Assign Role</Form.Label>
+              <Form.Select {...register('role')}>
+                <option value="Member">Member</option>
+                <option value="Staff">Staff</option>
+                <option value="Admin">Admin</option>
+              </Form.Select>
+            </Form.Group>
+            <div className="d-flex gap-2 justify-content-end">
+              <Button variant="light" onClick={() => setShowModal(false)} className="px-4 fw-bold">Cancel</Button>
+              <Button variant="primary" type="submit" disabled={submitting} className="px-4 fw-bold">
+                {submitting ? <Spinner animation="border" size="sm" /> : 'Save Member'}
+              </Button>
+            </div>
+          </Form>
+        </Modal.Body>
+      </Modal>
 
       <style jsx global>{`
         .letter-spacing-1 { letter-spacing: 1px; }
