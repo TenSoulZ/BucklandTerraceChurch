@@ -15,7 +15,7 @@ SECRET_KEY = env('SECRET_KEY', default='django-insecure-key')
 
 DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1', '.koyeb.app', '.vercel.app', 'bucklandterracescommunitychurch.org'])
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -124,13 +124,16 @@ SIMPLE_JWT = {
     'UPDATE_LAST_LOGIN': True,
 }
 
+# Get frontend URLs as a list
+frontend_urls = env.list('FRONTEND_URL', default=['http://localhost:3000'])
+
 CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[
-    env('FRONTEND_URL', default='http://localhost:3000'),
+    *frontend_urls,
     'http://127.0.0.1:3000',
     'http://localhost:3000',
 ])
 CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[
-    env('FRONTEND_URL', default='http://localhost:3000'),
+    *frontend_urls,
     'http://localhost:3000',
     'http://127.0.0.1:3000',
 ])
