@@ -45,6 +45,12 @@ function Navigation() {
           <Offcanvas.Body>
             <Nav className="justify-content-center flex-grow-1 pe-3">
               <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`}>Home</Link>
+              <Link href="/live" className={`nav-link ${pathname === '/live' ? 'active' : ''}`}>
+                <span className="d-flex align-items-center gap-1">
+                  <span className="bg-danger rounded-circle d-inline-block shadow-sm" style={{ width: '8px', height: '8px' }}></span>
+                  Live
+                </span>
+              </Link>
               <Link href="/sermons" className={`nav-link ${pathname?.startsWith('/sermons') ? 'active' : ''}`}>Sermons</Link>
               <Link href="/events" className={`nav-link ${pathname?.startsWith('/events') ? 'active' : ''}`}>Events</Link>
               <Link href="/ministries" className={`nav-link ${pathname?.startsWith('/ministries') ? 'active' : ''}`}>Ministries</Link>

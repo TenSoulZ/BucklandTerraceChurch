@@ -2,11 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import { Container, Row, Col, Badge, Spinner, Button, Card } from 'react-bootstrap';
+import { Container, Row, Col, Badge, Spinner, Button, Card, Form } from 'react-bootstrap';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { get } from '@/lib/api';
-import { FaCalendarDays, FaMicrophone, FaTag, FaArrowLeft, FaShare } from 'react-icons/fa6';
+import { FaCalendarDays, FaMicrophone, FaTag, FaArrowLeft, FaShare, FaMessage } from 'react-icons/fa6';
 import Link from 'next/link';
 
 export default function SermonDetails() {
@@ -130,7 +130,7 @@ export default function SermonDetails() {
                 </div>
 
                 {sermon.audio_url && (
-                  <div className="bg-light p-4 rounded-3 d-flex align-items-center justify-content-between">
+                  <div className="bg-light p-4 rounded-3 d-flex align-items-center justify-content-between mb-5">
                     <div className="d-flex align-items-center">
                       <div className="bg-dark text-white rounded-circle p-2 me-3">
                         <i className="bi bi-headphones"></i>
@@ -140,6 +140,29 @@ export default function SermonDetails() {
                     <a href={sermon.audio_url} target="_blank" rel="noopener noreferrer" className="btn btn-primary rounded-pill px-4">Download MP3</a>
                   </div>
                 )}
+
+                {/* Engagement Section */}
+                <div className="mt-5 pt-4">
+                  <h4 className="fw-bold mb-4 d-flex align-items-center">
+                    <FaMessage className="text-primary me-2" /> Discussion & Reflections
+                  </h4>
+                  <Card className="border-0 bg-light p-4 rounded-4 shadow-sm mb-4">
+                    <p className="text-muted small mb-3">Join the conversation about this message. Share what you've learned or how it impacted you.</p>
+                    <Form>
+                      <Form.Group className="mb-3">
+                        <Form.Control as="textarea" rows={3} placeholder="Write your reflection here..." className="border-0 shadow-sm" />
+                      </Form.Group>
+                      <div className="d-flex justify-content-end">
+                        <Button variant="primary" className="fw-bold rounded-pill px-4">Post Reflection</Button>
+                      </div>
+                    </Form>
+                  </Card>
+                  
+                  <div className="text-center py-4 border-top border-secondary border-opacity-10 mt-5">
+                    <p className="text-muted small">Only registered community members can participate in discussions.</p>
+                    <Link href="/login" className="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold">Sign In to Engage</Link>
+                  </div>
+                </div>
               </div>
             </Col>
 

@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 import SermonCard from '@/components/SermonCard';
 import EventCard from '@/components/EventCard';
 import { get } from '@/lib/api';
-import { FaLocationDot, FaClock, FaGlobe, FaArrowRight } from 'react-icons/fa6';
+import { FaLocationDot, FaClock, FaGlobe, FaArrowRight, FaHandsPraying } from 'react-icons/fa6';
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
@@ -67,14 +67,17 @@ export default function Home() {
               Experience the life-transforming power of God's Word. Join our vibrant community in-person or online from anywhere in the world.
             </p>
             <div className="d-flex justify-content-center flex-wrap gap-3 animate-slideUp-delay-2">
-              <Link href="/about">
-                <Button variant="primary" size="lg" className="fw-bold px-5 py-3 shadow-lg rounded-pill">
-                  Join Us In Person
+              <Link href="/live">
+                <Button variant="primary" size="lg" className="fw-bold px-5 py-3 shadow-lg rounded-pill d-flex align-items-center gap-2">
+                  <span className="bg-white rounded-circle animate-pulse" style={{ width: '12px', height: '12px' }}></span>
+                  Join Live Service
                 </Button>
               </Link>
-              <Button variant="outline-light" size="lg" className="fw-bold px-5 py-3 rounded-pill backdrop-blur d-flex align-items-center">
-                <FaGlobe className="me-2" /> Join Online Church
-              </Button>
+              <Link href="/about">
+                <Button variant="outline-light" size="lg" className="fw-bold px-5 py-3 rounded-pill backdrop-blur">
+                  About Our Church
+                </Button>
+              </Link>
             </div>
           </div>
 
@@ -104,6 +107,69 @@ export default function Home() {
               <Link href="/contact" className="text-primary fw-bold text-decoration-none fs-5 hover-underline">
                 Plan your visit today <FaArrowRight className="ms-2" />
               </Link>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+
+      {/* Online Community Section */}
+      <section className="py-5 bg-primary text-white position-relative overflow-hidden">
+        <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-10"></div>
+        <Container className="py-5 position-relative z-1">
+          <Row className="align-items-center gy-5">
+            <Col lg={6}>
+              <h2 className="display-4 fw-bold mb-4">Our Community is <span className="text-info">Borderless</span></h2>
+              <p className="lead mb-5 opacity-90">
+                Distance shouldn't keep us apart. Join our vibrant online community where we pray together, study the Word, and support one another across continents.
+              </p>
+              <Row className="gy-4 mb-5">
+                <Col sm={6}>
+                  <div className="d-flex align-items-center gap-3">
+                    <div className="bg-white bg-opacity-20 rounded-circle p-3">
+                      <FaHandsPraying size={24} />
+                    </div>
+                    <div>
+                      <h5 className="fw-bold mb-0">Daily Prayer</h5>
+                      <small className="opacity-75">Submit & join in prayer</small>
+                    </div>
+                  </div>
+                </Col>
+                <Col sm={6}>
+                  <div className="d-flex align-items-center gap-3">
+                    <div className="bg-white bg-opacity-20 rounded-circle p-3">
+                      <FaGlobe size={24} />
+                    </div>
+                    <div>
+                      <h5 className="fw-bold mb-0">Global Impact</h5>
+                      <small className="opacity-75">Connect from anywhere</small>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
+              <div className="d-flex gap-3">
+                <Link href="/prayer">
+                  <Button variant="light" size="lg" className="fw-bold rounded-pill px-4 text-primary">Wall of Prayer</Button>
+                </Link>
+                <Link href="/register">
+                  <Button variant="outline-light" size="lg" className="fw-bold rounded-pill px-4">Join Community</Button>
+                </Link>
+              </div>
+            </Col>
+            <Col lg={6}>
+               <div className="bg-white bg-opacity-10 backdrop-blur rounded-5 p-4 p-md-5 border border-white border-opacity-20 shadow-lg">
+                  <h4 className="fw-bold mb-4">Community Highlights</h4>
+                  <div className="d-flex flex-column gap-4">
+                    <div className="bg-white bg-opacity-10 p-3 rounded-4 border border-white border-opacity-10">
+                      <div className="small fw-bold text-info text-uppercase mb-1">New Testimony</div>
+                      <p className="mb-0 small italic">"Being part of the online church has kept me grounded despite living thousands of miles away from my family." — Sarah M.</p>
+                    </div>
+                    <div className="bg-white bg-opacity-10 p-3 rounded-4 border border-white border-opacity-10">
+                      <div className="small fw-bold text-info text-uppercase mb-1">Upcoming Online Group</div>
+                      <h6 className="mb-1 fw-bold">Youth Bible Study (Zoom)</h6>
+                      <p className="mb-0 small opacity-75">Friday at 7:00 PM (GMT+2)</p>
+                    </div>
+                  </div>
+               </div>
             </Col>
           </Row>
         </Container>
@@ -189,13 +255,13 @@ export default function Home() {
           </section>
         )}
 
-        {/* Visit Information */}
+        {/* Online Experience Info */}
         <section className="py-5 bg-white">
           <Container className="py-5">
             <Row className="gy-5 align-items-center">
               <Col lg={5}>
-                <h2 className="display-6 fw-bold mb-4">Visit Us This Sunday</h2>
-                <p className="lead text-muted mb-5">We would love to welcome you in person. Our doors are open to everyone.</p>
+                <h2 className="display-6 fw-bold mb-4">Connect With Us Online</h2>
+                <p className="lead text-muted mb-5">Our online church is designed to provide a rich spiritual experience no matter your distance. Join us every Sunday and throughout the week.</p>
                 
                 <div className="d-flex mb-4">
                   <div className="bg-primary bg-opacity-10 text-primary rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style={{ width: '64px', height: '64px' }}>
@@ -203,34 +269,37 @@ export default function Home() {
                   </div>
                   <div>
                     <h5 className="fw-bold mb-1">Service Times</h5>
-                    <p className="text-muted mb-0">Sundays @ 10:00 AM & 6:00 PM</p>
+                    <p className="text-muted mb-0">Sundays @ 10:00 AM & 6:00 PM (GMT+2)</p>
                   </div>
                 </div>
                 
                 <div className="d-flex mb-5">
-                  <div className="bg-danger bg-opacity-10 text-danger rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style={{ width: '64px', height: '64px' }}>
-                    <FaLocationDot size={24} />
+                  <div className="bg-info bg-opacity-10 text-info rounded-circle p-3 me-3 d-flex align-items-center justify-content-center" style={{ width: '64px', height: '64px' }}>
+                    <FaGlobe size={24} />
                   </div>
                   <div>
-                    <h5 className="fw-bold mb-1">Our Location</h5>
-                    <p className="text-muted mb-0">Stand 15493 Figtree Rd, Grace Park, Harare</p>
+                    <h5 className="fw-bold mb-1">Join via Platform</h5>
+                    <p className="text-muted mb-0">Available on YouTube, Facebook Live, and our website</p>
                   </div>
                 </div>
                 
-                <Link href="/contact">
-                  <Button variant="outline-dark" size="lg" className="fw-bold px-5 py-3 rounded-pill">Contact Us</Button>
+                <Link href="/live">
+                  <Button variant="primary" size="lg" className="fw-bold px-5 py-3 rounded-pill">Watch Live Now</Button>
                 </Link>
               </Col>
               <Col lg={7}>
-                <div className="rounded-5 shadow-lg overflow-hidden border border-light border-5" style={{ height: '450px' }}>
-                  <iframe 
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d121481.56475510619!2d30.957597143493777!3d-17.824794240788647!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1931a4e1e6955555%3A0x8085d7b5f65a123!2sHarare%2C%20Zimbabwe!5e0!3m2!1sen!2sus!4v1714000000000!5m2!1sen!2sus" 
-                    width="100%" 
-                    height="100%" 
-                    style={{ border: 0 }} 
-                    allowFullScreen={false} 
-                    loading="lazy"
-                  ></iframe>
+                <div className="rounded-5 shadow-lg overflow-hidden border border-light border-5 position-relative" style={{ height: '450px' }}>
+                  <Image 
+                    src="/church-interior.jpg" 
+                    alt="Online Church Experience"
+                    fill
+                    className="object-fit-cover"
+                  />
+                  <div className="position-absolute top-50 start-50 translate-middle">
+                     <div className="bg-white bg-opacity-90 rounded-circle p-4 shadow-lg animate-pulse">
+                        <i className="bi bi-play-fill text-primary fs-1"></i>
+                     </div>
+                  </div>
                 </div>
               </Col>
             </Row>
@@ -268,6 +337,13 @@ export default function Home() {
         .animate-slideUp { animation: slideUp 0.8s ease-out; }
         .animate-slideUp-delay { animation: slideUp 0.8s ease-out 0.2s both; }
         .animate-slideUp-delay-2 { animation: slideUp 0.8s ease-out 0.4s both; }
+        .animate-pulse {
+          animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse {
+          0%, 100% { opacity: 1; }
+          50% { opacity: .7; }
+        }
       `}</style>
     </>
   );

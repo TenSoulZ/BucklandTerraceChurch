@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Container, Row, Col, Card, ProgressBar, Button, Spinner, Tab, Tabs } from 'react-bootstrap';
+import { Container, Row, Col, Card, ProgressBar, Button, Spinner, Tab, Tabs, Form } from 'react-bootstrap';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { get } from '@/lib/api';
@@ -108,7 +108,26 @@ export default function GivingPage() {
             {/* Giving Methods */}
             <Col lg={4}>
               <div className="sticky-top" style={{ top: '100px' }}>
-                <h3 className="fw-bold mb-4">Ways to Give</h3>
+                <h3 className="fw-bold mb-4">Direct Giving</h3>
+                
+                <Card className="border-0 shadow-lg bg-primary text-white mb-4 rounded-4 overflow-hidden">
+                  <div className="p-4 bg-black bg-opacity-20 text-center">
+                    <FaHandHoldingHeart size={32} />
+                    <h5 className="fw-bold mt-2 mb-0">Tithe & Offering</h5>
+                  </div>
+                  <Card.Body className="p-4">
+                    <Form>
+                      <Form.Group className="mb-3">
+                        <Form.Label className="small fw-bold">Amount (£)</Form.Label>
+                        <Form.Control type="number" placeholder="0.00" className="bg-white border-0 py-2" />
+                      </Form.Group>
+                      <Button variant="light" className="w-100 fw-bold text-primary py-2 rounded-pill">Give Now</Button>
+                    </Form>
+                    <p className="text-center small mt-3 opacity-75 mb-0">Secure encrypted payment</p>
+                  </Card.Body>
+                </Card>
+
+                <h3 className="fw-bold mb-4 pt-3">Other Methods</h3>
                 
                 <Tabs defaultActiveKey="bank" id="giving-tabs" className="mb-3 custom-giving-tabs border-0">
                   <Tab eventKey="bank" title={<><FaLandmark className="me-1" /> Bank</>} tabClassName="fw-bold border-0">
