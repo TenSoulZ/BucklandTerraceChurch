@@ -12,7 +12,7 @@ const memberSchema = z.object({
   first_name: z.string().min(1, 'First name is required'),
   last_name: z.string().min(1, 'Last name is required'),
   email: z.string().email('Invalid email address'),
-  role: z.string().optional().default('Member'),
+  role: z.string().min(1, 'Role is required'),
 });
 
 type MemberFormValues = z.infer<typeof memberSchema>;
@@ -28,7 +28,10 @@ export default function MembersManagement() {
   const [error, setError] = useState('');
 
   const { register, handleSubmit, reset, formState: { errors } } = useForm<MemberFormValues>({
-    resolver: zodResolver(memberSchema)
+    resolver: zodResolver(memberSchema),
+    defaultValues: {
+      role: 'Member'
+    }
   });
 
   const fetchMembers = async () => {
