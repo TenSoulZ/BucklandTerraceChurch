@@ -5,11 +5,13 @@ import "./globals.css";
 import Providers from "./providers";
 import ScrollToTop from "@/components/ScrollToTop";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: 'swap', adjustFontFallback: false });
 const lato = Lato({
   weight: ["100", "300", "400", "700", "900"],
   subsets: ["latin"],
   variable: "--font-lato",
+  display: 'swap',
+  adjustFontFallback: false
 });
 
 export const metadata: Metadata = {
