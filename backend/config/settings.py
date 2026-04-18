@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'prayer',
     'communications',
     'media_manager',
+    'live_stream',
 ]
 
 MIDDLEWARE = [

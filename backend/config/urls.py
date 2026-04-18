@@ -12,6 +12,7 @@ from blog.views import CategoryViewSet, TagViewSet, PostViewSet, CommentViewSet
 from prayer.views import PrayerRequestViewSet, PrayerResponseViewSet
 from communications.views import BroadcastGroupViewSet, BroadcastViewSet, NotificationLogViewSet, ContactMessageViewSet
 from media_manager.views import ImageAssetViewSet
+from live_stream.views import LiveStreamViewSet, StreamChatViewSet
 
 router = DefaultRouter()
 
@@ -56,6 +57,10 @@ router.register(r'communications/contact', ContactMessageViewSet, basename='comm
 
 # Media Manager
 router.register(r'media', ImageAssetViewSet, basename='media')
+
+# Live Stream
+router.register(r'live', LiveStreamViewSet, basename='live')
+router.register(r'live-chat', StreamChatViewSet, basename='live-chat')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
